@@ -4,7 +4,7 @@ diff -ruN mesa/include/pci_ids/radeonsi_pci_ids.h mesa-patched/include/pci_ids/r
 @@ -88,6 +88,11 @@
  CHIPSET(0x665D, BONAIRE)
  CHIPSET(0x665F, BONAIRE)
- 
+
 +CHIPSET(0x9920, LIVERPOOL)
 +CHIPSET(0x9922, LIVERPOOL)
 +CHIPSET(0x9923, LIVERPOOL)
@@ -18,7 +18,7 @@ diff -ruN mesa/src/amd/addrlib/src/amdgpu_asic_addr.h mesa-patched/src/amd/addrl
 +++ mesa-patched/src/amd/addrlib/src/amdgpu_asic_addr.h	2021-03-28 16:31:38.140332659 +0200
 @@ -71,7 +71,9 @@
  #define AMDGPU_HAWAII_RANGE     0x28, 0x3C
- 
+
  #define AMDGPU_SPECTRE_RANGE    0x01, 0x41
 -#define AMDGPU_SPOOKY_RANGE     0x41, 0x81
 +#define AMDGPU_SPOOKY_RANGE     0x41, 0x61
@@ -26,16 +26,16 @@ diff -ruN mesa/src/amd/addrlib/src/amdgpu_asic_addr.h mesa-patched/src/amd/addrl
 +#define AMDGPU_STARSHP_RANGE    0x71, 0x81
  #define AMDGPU_KALINDI_RANGE    0x81, 0xA1
  #define AMDGPU_GODAVARI_RANGE   0xA1, 0xFF
- 
+
 @@ -123,6 +125,8 @@
- 
+
  #define ASICREV_IS_SPECTRE(r)          ASICREV_IS(r, SPECTRE)
  #define ASICREV_IS_SPOOKY(r)           ASICREV_IS(r, SPOOKY)
 +#define ASICREV_IS_STARSHA(r)           ASICREV_IS(r, STARSHA)
 +#define ASICREV_IS_STARSHP(r)           ASICREV_IS(r, STARSHP)
  #define ASICREV_IS_KALINDI(r)          ASICREV_IS(r, KALINDI)
  #define ASICREV_IS_KALINDI_GODAVARI(r) ASICREV_IS(r, GODAVARI)
- 
+
 diff -ruN mesa/src/amd/common/ac_gpu_info.c mesa-patched/src/amd/common/ac_gpu_info.c
 --- mesa/src/amd/common/ac_gpu_info.c	2021-03-28 16:03:36.156902381 +0200
 +++ mesa-patched/src/amd/common/ac_gpu_info.c	2021-03-28 16:40:13.203695707 +0200
@@ -166,12 +166,12 @@ diff -ruN mesa/src/gallium/winsys/radeon/drm/radeon_drm_winsys.c mesa-patched/sr
           ws->info.max_se = 4;
           break;
        }
-diff -ruN mesa/src/amd/common/ac_gpu_info.c mesa-patched/src/amd/common/ac_gpu_info.c 
+diff -ruN mesa/src/amd/common/ac_gpu_info.c mesa-patched/src/amd/common/ac_gpu_info.c
 --- mesa/src/amd/common/ac_gpu_info.c
 +++ mesa-patched/src/amd/common/ac_gpu_info.c
 @@ -534,19 +534,10 @@
     info->vram_size_kb = DIV_ROUND_UP(info->vram_size, 1024);
- 
+
     if (info->drm_minor >= 41) {
 -      r = amdgpu_query_video_caps_info(dev, AMDGPU_INFO_VIDEO_CAPS_DECODE,
 -            sizeof(info->dec_caps), &(info->dec_caps));
@@ -191,5 +191,5 @@ diff -ruN mesa/src/amd/common/ac_gpu_info.c mesa-patched/src/amd/common/ac_gpu_i
 +      amdgpu_query_video_caps_info(dev, AMDGPU_INFO_VIDEO_CAPS_ENCODE,
 +                                   sizeof(info->enc_caps), &(info->enc_caps));
     }
- 
+
     /* Add some margin of error, though this shouldn't be needed in theory. */

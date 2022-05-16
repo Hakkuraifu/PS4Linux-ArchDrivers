@@ -1,10 +1,11 @@
-# Maintainer: Laurent Carlier <lordheavym@gmail.com>
+# Original Maintainer: Laurent Carlier <lordheavym@gmail.com>
+# PS4 Maintainer: Nazky <@NazkyYT>
 
 pkgname=xf86-video-amdgpu-ps4
 _pkgname=xf86-video-amdgpu
-pkgver=21.0.0
-pkgrel=2
-pkgdesc="X.org amdgpu video driver (ps4 version)"
+pkgver=22.0.0
+pkgrel=1
+pkgdesc="X.org amdgpu video driver PS4 version"
 arch=('x86_64')
 url="https://xorg.freedesktop.org/"
 license=('custom')
@@ -13,10 +14,10 @@ makedepends=('xorg-server-devel' 'systemd' 'X-ABI-VIDEODRV_VERSION=25.2')
 conflicts=('xorg-server<1.20.0' 'X-ABI-VIDEODRV_VERSION<25' 'X-ABI-VIDEODRV_VERSION>=26')
 provides=('xf86-video-amdgpu')
 groups=('xorg-drivers')
-source=(${url}/releases/individual/driver/${_pkgname}-${pkgver}.tar.bz2
+source=(${url}/releases/individual/driver/${_pkgname}-${pkgver}.tar.xz
         xf86-video-amdgpu.patch)
-sha512sums=('44ccc8ddc36f09d1608cf58b6cf85dda090671c46c5643e9453f7d67f4d6850c3c9753eba43539d45773198b8042898a50153b5225780e4b2852410c5521314a'
-            'SKIP')
+sha512sums=(SKIP
+            SKIP)
 
 prepare() {
   cd ${_pkgname}-${pkgver}
